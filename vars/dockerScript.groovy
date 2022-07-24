@@ -14,14 +14,14 @@ environment {
 	
 	stages {
 		stage("POLL SCM"){
-      			agent{label 'docker'}
+      			agent{label 'dock'}
 			steps {
 				 checkout([$class: 'GitSCM', branches: [[name: "$gitBranch"]], extensions: [], userRemoteConfigs: [[credentialsId: "$gitCredId", url: "$gitRepo"]]])
 			}
 		}	
 					
 		stage('BUILD IMAGE') {
-       			agent{label 'docker'}
+       			agent{label 'dock'}
 			steps { 
 				script { 
 					dockerimage = docker.build registry + ":$dockerTag" 
@@ -30,7 +30,7 @@ environment {
 		}
 					
 		stage('PUSH HUB') { 
-       			agent{label 'docker'}
+       			agent{label 'dock'}
 			steps { 
 				script {
 					docker.withRegistry( '', registryCredential ) { 
